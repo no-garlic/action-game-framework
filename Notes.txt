@@ -1,0 +1,68 @@
+
+[Config File]
+ - handle errors better than just logs (in debug build anyway)
+ - add array of error messages
+ 
+[Application Module]
+ - Support all callbacks from GLFW
+ - Support Fullscreen Window Mode
+ 
+[General]
+ - Cleanup all uses of arrays and maps to use auto
+ - Create wrapper classes for containers
+
+[Features]
+ - right justify reference conuter
+ - update scene loading to handle errors in the config file
+ - Config File does not handle a lot of whitespace lines in the middle of the file (or one with whitespace)
+ - Add the FPS to the title bar
+ - Fix the stats / profiler and display with imgui
+ - Add lexical cast template specializations for glm types
+ - Add a full list of functions to DebugDisplay
+ - Add sticky time to DebugDisplay
+ - Dont show memory allocations on exit unless there is a leak
+ - Layers should have names, and values stored in cfg - make them a managed object?
+ - Change Reference<T> to hold an object id and hold the objects in an object database indexed by the id, that way
+   we can force release an object (despawn) and just make the references invalid.
+
+ - Create a natvis file, eg:
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- natvis file for Visual Studio debugger (you can include this in a project file, or install in visual studio folder) -->
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+
+<Type Name="ImVector&lt;*&gt;">
+  <DisplayString>{{Size={Size} Capacity={Capacity}}}</DisplayString>
+  <Expand>
+    <ArrayItems>
+      <Size>Size</Size>
+      <ValuePointer>Data</ValuePointer>
+    </ArrayItems>
+  </Expand>
+</Type>
+
+<Type Name="ImVec2">
+  <DisplayString>{{x={x,g} y={y,g}}}</DisplayString>
+</Type>
+
+<Type Name="ImVec4">
+  <DisplayString>{{x={x,g} y={y,g} z={z,g} w={w,g}}}</DisplayString>
+</Type>
+
+<Type Name="ImRect">
+  <DisplayString>{{Min=({Min.x,g} {Min.y,g}) Max=({Max.x,g} {Max.y,g}) Size=({Max.x-Min.x,g} {Max.y-Min.y,g})}}</DisplayString>
+  <Expand>
+    <Item Name="Min">Min</Item>
+    <Item Name="Max">Max</Item>
+    <Item Name="[Width]">Max.x - Min.x</Item>
+    <Item Name="[Height]">Max.y - Min.y</Item>
+  </Expand>
+</Type>
+
+<Type Name="ImGuiWindow">
+  <DisplayString>{{Name={Name,s} Active {(Active||WasActive)?1:0,d} Child {(Flags &amp; 0x01000000)?1:0,d} Popup {(Flags &amp; 0x04000000)?1:0,d}}</DisplayString>
+</Type>
+  
+</AutoVisualizer>
+
